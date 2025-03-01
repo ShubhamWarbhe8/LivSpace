@@ -16,9 +16,10 @@ public class CityServiceImpl implements CityService {
     public List<CityEntity> getAllCities() {
         return cityRepository.findAll();
     }
+
     @Override
-    public CityEntity addCityAndLandMarkAndBHK(String city, String landMark, String BHK) {
-        CityEntity cityEntity = cityRepository.findByCityAndLandmarkAndBHK(city,landMark, BHK);
+    public CityEntity addCity(String city) {
+        CityEntity cityEntity = (CityEntity) cityRepository.findByCity(city);
         return new CityEntity();
     }
 

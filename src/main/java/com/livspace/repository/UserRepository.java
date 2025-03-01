@@ -1,6 +1,5 @@
 package com.livspace.repository;
 
-import com.livspace.entity.CityEntity;
 import com.livspace.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
