@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,13 @@ public class BuyController {
     @Autowired
     private CityService cityService;
 
+    @GetMapping("/")
+    public String showForm(){
+        return "buy";
+    }
+
     @GetMapping(value = {"/buy"})
-    public String getAllCities(Model model) {
+    public String getAllCities(@RequestParam(value = "city", required = false) String selectedCity, Model model)  {
 
         List<CityDomain> cityDomainList = new ArrayList<>();
         //controller(domain) -> service (entity)-> repo call -> database
@@ -29,6 +35,10 @@ public class BuyController {
                 }
         );
         model.addAttribute("cities", cityDomainList);
+        if (selectedCity == null || selectedCity.isEmpty()) {
+            selectedCity = "";
+        }
+        model.addAttribute("selectedCity", selectedCity);
         return "buy";
     }
 }

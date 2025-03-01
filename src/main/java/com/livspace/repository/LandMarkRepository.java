@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-    public interface LandMarkRepository extends JpaRepository<LandMarkEntity, Long> {
-        List<LandMarkEntity> findByCity(String city);
-    }
+public interface LandMarkRepository extends JpaRepository<LandMarkEntity, Long> {
+    List<LandMarkEntity> findByCity(String city);
+}

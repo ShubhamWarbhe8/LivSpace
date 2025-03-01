@@ -30,7 +30,7 @@
                      var selectedCity = $(this).val();
                      var landmarkDropdown = $("#landmarkDropdown");
                      landmarkDropdown.empty();
-                     landmarkDropdown.append('<option value="">-- Select Landmark --</option>');
+                     landmarkDropdown.append('<option value=""> Select Landmark </option>');
 
                      if (selectedCity) {
                          $.ajax({
@@ -51,18 +51,26 @@
                  });
              });
      </script>
-
+<script>
+    function submitForm() {
+        var city = document.getElementById("cityDropdown").value;
+        if (city !== "") {
+            document.getElementById("locationForm").submit();
+        }
+    }
+</script>
 </head>
+
 <body>
     <div class="container">
         <h2 class="text-center">Buy</h2>
-        <form action="/buy" method="get">
+        <form id="locationForm" action="/buy-property" method="get">
             <div class="mb-3">
                 <label for="city" class="form-label">Select City</label>
-                <select class="form-control" id="cityDropdown" name="city">
-                <option value="">Select City</option>
-                <c:forEach var="b" items="${cities}">
-                <option value="${b.city}">${b.city}</option>
+                <select class="form-control" name="city" id="cityDropdown">
+                <option value="" ${selectedCity eq '' ? 'selected' : ''}>-- Select City --</option>
+                  <c:forEach var="b" items="${cities}">
+            <option value="${b.city}" ${selectedCity != null && selectedCity eq city ? 'selected' : ''}>${b.city}</option>
                  </c:forEach>
               </select>
             </div>
@@ -70,8 +78,23 @@
              </select>
                  <!-- Landmark Dropdown (Loaded via AJAX) -->
              <label for="landMark" class="form-label">Select Landmark:</label>
-             <select id="landmarkDropdown" class="form-control">
-             <option value="">-- Select Landmark --</option>
+             <select id="landmarkDropdown" class="form-control"  name="landMark" >
+                <option value=""> Select Landmark </option>
+                <c:choose>
+                <c:when test="${selectedCity == 'Pune'}">
+                <option value="Wakad">Wakad</option>
+                <option value="Balewadi">Balewadi</option>
+                <option value="Baner">Baner</option>
+                </c:when>
+                <c:when test="${selectedCity == 'Nagpur'}">
+                <option value="Jamtha">Jamtha</option>
+                <option value="Rahate Colony">Rahate Colony</option>
+                <option value="Sitabuldi">Sitabuldi</option>
+                </c:when>
+                <c:otherwise>
+                <option value="">-- No landmarks available --</option>
+                </c:otherwise>
+                </c:choose>
              </select>
             </div>
 
@@ -86,23 +109,16 @@
                       <option value="3+BHK">3+BHK</option>
                  </select>
             </div>
-        <div>
-            <div class="mb-3">
-                <label class="form-label">Property Type</label><br>
-                <input type="radio" id="fullhouse" name="property_type" value="Full House" required>
-                <label for="fullhouse">Full House</label>
-                <input type="radio" id="plot" name="property_type" value="Plot" required>
-                <label for="plot">Plot</label>
-            </div>
             <div class="mb-3">
                 <label for="status" class="form-label">Property Status</label>
                 <select class="form-control" id="status" name="status" required>
                     <option value="">Select Status</option>
-                    <option value="Under Construction">Under Construction</option>
+                    <option value="UnderConstruction">Under Construction</option>
                     <option value="Ready">Ready</option>
                 </select>
             </div>
-            <a class="btn btn-primary btn-custom" href="/sign-in" role="button" >Search</a>
+            <input type="hidden" name="selectedCity" value="${selectedCity}">
+            <input class="btn btn-primary" type="submit" value="Submit">
         </form>
     </div>
 </body>
