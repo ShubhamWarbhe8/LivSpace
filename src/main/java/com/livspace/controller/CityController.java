@@ -20,7 +20,7 @@ public class CityController {
     private CityService cityService;
 
     @GetMapping(value = {"/getCities"})
-    public String getAllCities(Model model) {
+    public String getAllCities(@RequestParam(value = "city", required = false)Model model,String selectedCity) {
 
         List<CityDomain> cityDomainList = new ArrayList<>();
         //controller(domain) -> service (entity)-> repo call -> database
@@ -32,6 +32,7 @@ public class CityController {
                 }
         );
         model.addAttribute("cities", cityDomainList);
+        model.addAttribute("selectedCity", cityDomainList);
         return "buy";
     }
 
