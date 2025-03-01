@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!<DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
@@ -21,63 +21,70 @@
             width: 100%;
         }
     </style>
-    <title>Dependent Dropdown</title>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        <script>
-                function loadLandmarks() {
-                    let cityId = $("#cityDropdown").val();  // Get selected city ID
-                    $("#landmarkDropdown").empty();  // Clear existing options
+ <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+ <script>
+             $(document).ready(function() {
+                 // Load Landmarks when a City is Selected
+                 $("#cityDropdown").change(function() {
+                     var selectedCity = $(this).val();
+                     var landmarkDropdown = $("#landmarkDropdown");
+                     landmarkDropdown.empty();
+                     landmarkDropdown.append('<option value="">-- Select Landmark --</option>');
 
-                    if (cityId) {
-                        $.ajax({
-                            url: "/landmarks",  // API Endpoint
-                            type: "GET",
-                            data: { cityId: cityId },  // Send city ID as a parameter
-                            success: function(data) {
-                                $("#landmarkDropdown").append("<option>Select Landmark</option>");
-                                $.each(data, function(index, landmark) {
-                                    $("#landmarkDropdown").append(
-                                        `<option value="${landMark.landMark}">${landmark.name}</option>`
-                                    );
-                                });
-                            },
-                            error: function() {
-                                alert("Error fetching landmarks!");
-                            }
-                        });
-                    }
-                }
-            </script>
+                     if (selectedCity) {
+                         $.ajax({
+                             url: "/landMark",
+                             type: "GET",
+                             data: { city: selectedCity },
+                             dataType: "json",
+                             success: function(landmarks) {
+                                 $.each(landmarks, function(index, landmark) {
+                                     landmarkDropdown.append('<option value="' + landmark + '">' + landmark + '</option>');
+                                 });
+                             },
+                             error: function(xhr, status, error) {
+                                 alert("Error loading landmarks: " + error);
+                             }
+                         });
+                     }
+                 });
+             });
+     </script>
+
 </head>
 <body>
     <div class="container">
         <h2 class="text-center">Buy</h2>
-        <form action="buy.jsp" method="get">
+        <form action="/buy" method="get">
             <div class="mb-3">
                 <label for="city" class="form-label">Select City</label>
-                <select class="form-control" id="cityDropdown" name="city" onchange="loadLandmarks() >
+                <select class="form-control" id="cityDropdown" name="city">
                 <option value="">Select City</option>
-
-                        <option value="Pune">Pune</option>
-                        <option value="Nagpur">Nagpur</option>
-
-                </select>
-            <div>
+                <c:forEach var="b" items="${cities}">
+                <option value="${b.city}">${b.city}</option>
+                 </c:forEach>
+              </select>
+            </div>
             <div class="mb-3">
-                <label for="landMark" class="form-label">Select Landmark</label>
-                <select class="form-control" id="landmarkDropdown" name="landMark">
-                    <option value="">Select Landmark</option>
-    
-                </select>
+             </select>
+                 <!-- Landmark Dropdown (Loaded via AJAX) -->
+             <label for="landMark" class="form-label">Select Landmark:</label>
+             <select id="landmarkDropdown" class="form-control">
+             <option value="">-- Select Landmark --</option>
+             </select>
+            </div>
+
             <div class="mb-3">
-                <label for="bhk" class="form-label">Select BHK</label>
-                <select class="form-control" id="bhk" name="bhk" onchange="loadPropertyType()>
-                     <option value="">Select BHK</option>
-                      <c:forEach var="b" items="${cities}">
-                          <option value="${b.BHK}">${b.BHK}</option>
-                            </c:forEach>
-                </select>
+                 <label for="bhk" class="form-label">Select BHK</label>
+                 <select class="form-control" id="bhk" name="bhk" required>
+                      <option value="">Select BHK</option>
+                      <option value="1RK">1 RK</option>
+                      <option value="1BHK">1 BHK</option>
+                      <option value="2BHK">2 BHK</option>
+                      <option value="3BHK">3 BHK</option>
+                      <option value="3+BHK">3+BHK</option>
+                 </select>
             </div>
         <div>
             <div class="mb-3">
