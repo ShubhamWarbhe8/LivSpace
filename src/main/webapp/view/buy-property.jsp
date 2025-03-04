@@ -28,7 +28,6 @@
                     <th>Property Price</th>
                     <th>Property Image</th>
                     <th>Show Property</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -42,13 +41,14 @@
                         <td>${property.propertyStatus}</td>
                         <td>${property.propertyAreaSize}</td>
                         <td>${property.propertyPrice}</td>
-                        <td>${property.propertyImage}</td>
-                        <td><a href="/getPropertyDetails?id="${property.propertyId} class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Primary link</a></td>
+                        <td>
+                        <img src="/property/image/${property.propertyId}" width="100" height="100" alt="Property Image">
+                        </td>
+                        <td><a href="/showOverView?propertyId=${property.propertyId}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Primary link</a></td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
     </div>
-
 </body>
 </html>

@@ -18,12 +18,6 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public CityEntity addCity(String city) {
-        CityEntity cityEntity = (CityEntity) cityRepository.findByCity(city);
-        return new CityEntity();
-    }
-
-    @Override
     public List<CityEntity> getLandMarkByCity(String city) {
         var cities = cityRepository.findByCity(city);
         return cities;

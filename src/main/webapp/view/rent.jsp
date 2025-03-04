@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Rent Property</title>
+    <title>Rent</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
         body {
@@ -24,12 +24,11 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
      <script>
                  $(document).ready(function() {
-                     // Load Landmarks when a City is Selected
                      $("#cityDropdown").change(function() {
                          var selectedCity = $(this).val();
                          var landmarkDropdown = $("#landmarkDropdown");
                          landmarkDropdown.empty();
-                         landmarkDropdown.append('<option value="">-- Select Landmark --</option>');
+                         landmarkDropdown.append('<option value="">Select Landmark</option>');
 
                          if (selectedCity) {
                              $.ajax({
@@ -50,17 +49,25 @@
                      });
                  });
          </script>
+<script>
+    function submitForm() {
+        var city = document.getElementById("cityDropdown").value;
+        if (city !== "") {
+            document.getElementById("locationForm").submit();
+        }
+    }
+</script>
 </head>
 <body>
      <div class="container">
             <h2 class="text-center">Rent</h2>
-            <form action="/buy" method="get">
+        <form id="locationForm" action="/rent-property" method="get">
                 <div class="mb-3">
                     <label for="city" class="form-label">Select City</label>
                     <select class="form-control" id="cityDropdown" name="city">
-                    <option value="">Select City</option>
+                <option value="" ${selectedCity eq '' ? 'selected' : ''}>Select City</option>
                     <c:forEach var="b" items="${cities}">
-                    <option value="${b.city}">${b.city}</option>
+            <option value="${b.city}" ${selectedCity != null && selectedCity eq city ? 'selected' : ''}>${b.city}</option>
                      </c:forEach>
                   </select>
                 </div>
@@ -68,8 +75,23 @@
                  </select>
                      <!-- Landmark Dropdown (Loaded via AJAX) -->
                  <label for="landMark" class="form-label">Select Landmark:</label>
-                 <select id="landmarkDropdown" class="form-control">
-                 <option value="">-- Select Landmark --</option>
+                 <select id="landmarkDropdown" class="form-control" name="landMark">
+                 <option value="">Select Landmark</option>
+                 <c:choose>
+                 <c:when test="${selectedCity == 'Pune'}">
+                 <option value="Wakad">Wakad</option>
+                 <option value="Balewadi">Balewadi</option>
+                 <option value="Baner">Baner</option>
+                 </c:when>
+                 <c:when test="${selectedCity == 'Nagpur'}">
+                 <option value="Jamtha">Jamtha</option>
+                 <option value="Rahate Colony">Rahate Colony</option>
+                 <option value="Sitabuldi">Sitabuldi</option>
+                 </c:when>
+                 <c:otherwise>
+                 <option value=""> No landmarks available </option>
+                 </c:otherwise>
+                 </c:choose>
                  </select>
                 </div>
 
@@ -85,24 +107,9 @@
               </select>
              </div>
 
-            <div class="mb-3">
-                <label class="form-label">Property Type</label><br>
-                <input type="radio" name="propertyType" value="fullhouse"> Full House
-                <input type="radio" name="propertyType" value="plot"> Plot
-                <input type="radio" name="propertyType" value="pg"> PG/Hostel
-                <input type="radio" name="propertyType" value="flatmates"> Flatmates
-            </div>
 
-            <div class="mb-3">
-                <label for="status" class="form-label">Property Status</label>
-                <select class="form-control" id="status" name="status" required>
-                    <option value="">Select Status</option>
-                    <option value="under construction">Under Construction</option>
-                    <option value="ready">Ready</option>
-                </select>
-            </div>
-           <a class="btn btn-primary btn-custom" href="/sign-in" role="button" >Search</a>
-        </form>
+           <input class="btn btn-primary" type="submit" value="Submit">
+       </form>
     </div>
 </body>
 </html>

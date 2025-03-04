@@ -25,7 +25,6 @@
  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
  <script>
              $(document).ready(function() {
-                 // Load Landmarks when a City is Selected
                  $("#cityDropdown").change(function() {
                      var selectedCity = $(this).val();
                      var landmarkDropdown = $("#landmarkDropdown");
@@ -68,7 +67,7 @@
             <div class="mb-3">
                 <label for="city" class="form-label">Select City</label>
                 <select class="form-control" name="city" id="cityDropdown">
-                <option value="" ${selectedCity eq '' ? 'selected' : ''}>-- Select City --</option>
+                <option value="" ${selectedCity eq '' ? 'selected' : ''}>Select City</option>
                   <c:forEach var="b" items="${cities}">
             <option value="${b.city}" ${selectedCity != null && selectedCity eq city ? 'selected' : ''}>${b.city}</option>
                  </c:forEach>
@@ -92,7 +91,7 @@
                 <option value="Sitabuldi">Sitabuldi</option>
                 </c:when>
                 <c:otherwise>
-                <option value="">-- No landmarks available --</option>
+                <option value="">No landmarks available </option>
                 </c:otherwise>
                 </c:choose>
              </select>

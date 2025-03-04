@@ -2,8 +2,11 @@ package com.livspace.controller;
 
 import com.livspace.entity.Property;
 import com.livspace.service.PropertyService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +35,7 @@ public class PropertyController {
                                       @RequestParam("bhk") String bhk,
                                       @RequestParam("status") String propertyStatus,
                                       Model model) {
-        List<Property> propertyList =  propertyService.getProperty(city, bhk, propertyStatus, landMark);
+        List<Property> propertyList = propertyService.getProperty(city, bhk, propertyStatus, landMark);
         model.addAttribute("properties", propertyList);
         return "buy-property";
     }
@@ -42,24 +45,13 @@ public class PropertyController {
         return "addProperty";
     }
 
-    @PostMapping("/uploadimage")
-    public String handleImageUpload(@RequestParam("propertyImage") MultipartFile file, Model model) {
-        try {
-            Property property = propertyService.savePropertyImage(file);
-            model.addAttribute("message", "Image uploaded successfully: " + property.getPropertyName());
-            model.addAttribute("imageId", property.getPropertyId());
-        } catch (IOException e) {
-            model.addAttribute("message", "Image upload failed: " + e.getMessage());
-        }
-        return "uploadimage";
-    }
-
-    @GetMapping("/propertyImage/{pId}")
-    public void renderPropertyImage(@PathVariable("pId") Long pId, HttpServletResponse response) throws IOException {
-        Property property = (Property) propertyService.getPropertyImage(pId);
-        response.setContentType("propertyImage/jpeg");
-        response.getOutputStream().write(property.getPropertyImage());
-        response.getOutputStream().close();
+    @GetMapping("/property/image/{id}")
+    public ResponseEntity<ByteArrayResource> serveImage(@PathVariable Long id) {
+        Property property = propertyService.getPropertyById(id);
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + property.getPropertyName() + ".jpg\"")
+                .body(new ByteArrayResource(property.getPropertyImage()));
     }
 
     @PostMapping(value = "/addProperty")

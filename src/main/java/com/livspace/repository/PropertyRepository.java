@@ -9,6 +9,9 @@ import java.util.List;
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long> {
 
-    List<Property> findByCityAndBhkAndPropertyStatusAndLandMark(String city, String bhk, String propertyStatus, String landMark);
-    List<Property> findByPropertyId(Long pid);
+    List<Property> findByCityAndBhkAndPropertyStatusAndLandMark
+            (String city, String bhk, String propertyStatus, String landMark);
+
+    Property findByPropertyId(Long propertyId);
+
 }

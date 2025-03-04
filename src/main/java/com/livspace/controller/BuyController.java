@@ -22,11 +22,10 @@ public class BuyController {
         return "buy";
     }
 
-    @GetMapping(value = {"/buy"})
+    @GetMapping("/buy")
     public String getAllCities(@RequestParam(value = "city", required = false) String selectedCity, Model model)  {
 
         List<CityDomain> cityDomainList = new ArrayList<>();
-        //controller(domain) -> service (entity)-> repo call -> database
         List<CityEntity> allCities = cityService.getAllCities();
         allCities.forEach(s -> {
                     CityDomain cityDomain = new CityDomain();
