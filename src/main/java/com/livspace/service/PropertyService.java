@@ -14,15 +14,6 @@ public class PropertyService {
     @Autowired
     private PropertyRepository propertyRepository;
 
-/*
-    public Property savePropertyImage(MultipartFile multipartFile) throws IOException {
-        Property property = new Property();
-        property.setPropertyName(multipartFile.getOriginalFilename());
-        property.setPropertyImage(multipartFile.getBytes());
-        return propertyRepository.save(property);
-    }
-*/
-
     public void saveProperty(Property property) throws IOException {
         propertyRepository.save(property);
     }
@@ -31,11 +22,11 @@ public class PropertyService {
         return propertyRepository.findByPropertyId(id);
     }
 
-    public List<Property> getProperty
-            (String city, String bhk, String propertyStatus, String landMark){
-        return propertyRepository.findByCityAndBhkAndPropertyStatusAndLandMark
-                (city,bhk,propertyStatus,landMark);
+    public List<Property> getProperty(String city, String bhk, String propertyStatus, String landMark) {
+        return propertyRepository.findByCityAndBhkAndPropertyStatusAndLandMark(city, bhk, propertyStatus, landMark);
     }
 
-
+    public List<Property> getAllProperties() {
+        return propertyRepository.findAll();
+    }
 }

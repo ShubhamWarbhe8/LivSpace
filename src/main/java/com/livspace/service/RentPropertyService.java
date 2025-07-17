@@ -24,22 +24,5 @@ public class RentPropertyService {
             (String city, String landMark, String bHK) {
         return rentPropertyRepository.findByCityAndLandMarkAndBhk(
                 city,landMark, bHK);
-/*        List<RentProperty> typeAndRentPropertyStatus = rentPropertyRepository.
-                findByRentPropertyNameAndLandMarkAndBhk
-                        (rentPropertyName, landMark, bHK);
-        List<RentProperty> rentPropertyList = new ArrayList<>();*/
-
-/*
-
-        typeAndRentPropertyStatus.forEach(s -> {
-                    RentProperty rentProperty = new RentProperty();
-                    rentProperty.setRentPropertyName(rentPropertyName);
-                    rentProperty.setLandMark(landMark);
-                    rentProperty.setBhk(bHK);
-                    rentPropertyList.add(rentProperty);
-                }
-        );
-*/
     }
-
 }

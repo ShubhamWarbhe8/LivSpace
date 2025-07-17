@@ -37,4 +37,7 @@ public class Property {
 
     @Lob
     private byte[] propertyImage;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 }

@@ -1,0 +1,42 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<html>
+<head>
+    <title>Rent Overview List</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>Rent Overview List</h2>
+        <a href="/admin/rentoverview/addr" class="btn btn-primary mb-3">Add New</a>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Rent Property Title</th>
+                    <th>Location</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="item" items="${rentList}">
+                    <tr>
+                        <td>${item.rid}</td>
+                        <td>${item.propertyTitle}</td>
+                        <td>${item.location}</td>
+                        <td>${item.price}</td>
+                        <td>${item.description}</td>
+                        <td>
+                            <a href="/admin/rentoverview/edit/${item.rid}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="/admin/rentoverview/delete/${item.rid}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

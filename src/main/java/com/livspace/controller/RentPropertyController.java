@@ -1,6 +1,9 @@
 package com.livspace.controller;
 
+import com.livspace.domain.CityDomain;
+import com.livspace.entity.CityEntity;
 import com.livspace.entity.RentProperty;
+import com.livspace.service.CityService;
 import com.livspace.service.RentPropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -23,6 +27,33 @@ public class RentPropertyController {
 
     @Autowired
     private RentPropertyService rentPropertyService;
+
+    @Autowired
+    private CityService cityService;
+
+    @GetMapping("/re")
+    public String showForm(){
+        return "rent";
+    }
+
+    @GetMapping("/rent")
+    public String getAllCities(@RequestParam(value = "city", required = false) String selectedCity, Model model)  {
+
+        List<CityDomain> cityDomainList = new ArrayList<>();
+        List<CityEntity> allCities = cityService.getAllCities();
+        allCities.forEach(s -> {
+                    CityDomain cityDomain = new CityDomain();
+                    cityDomain.setCity(s.getCity());
+                    cityDomainList.add(cityDomain);
+                }
+        );
+        model.addAttribute("cities", cityDomainList);
+        if (selectedCity == null || selectedCity.isEmpty()) {
+            selectedCity = "";
+        }
+        model.addAttribute("selectedCity", selectedCity);
+        return "rent";
+    }
 
     @GetMapping("/showRentPropertyImage")
     public String showRentUploadForm() {
@@ -54,7 +85,7 @@ public class RentPropertyController {
     }
 
     @PostMapping(value = "/addRentProperty")
-    public void saveRentProperty(@RequestParam("rent_property_name") String rentPropertyName,
+    public String saveRentProperty(@RequestParam("rentPropertyName") String rentPropertyName,
                              @RequestParam("landMark") String landMark,
                              @RequestParam("address") String address,
                              @RequestParam("city") String city,
@@ -74,5 +105,7 @@ public class RentPropertyController {
         rentProperty.setRentPropertyImage(rentPropertyImage.getBytes());
 
         rentPropertyService.saveRentProperty(rentProperty);
+
+        return "redirect:/showRentPropertyPage";
     }
 }

@@ -2,6 +2,9 @@ package com.livspace.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -23,8 +26,9 @@ public class BuyOverview {
     @Column(name = "builder")
     private String builder;
 
+    @DateTimeFormat
     @Column(name = "date_of_establishment")
-    private String dateOfEstablishment;
+    private LocalDate dateOfEstablishment;
 
     @Column(name = "tower")
     private String tower;
@@ -41,8 +45,9 @@ public class BuyOverview {
     @Column(name = "price")
     private String price;
 
+    @DateTimeFormat
     @Column(name = "possession_date")
-    private String possessionDate;
+    private LocalDate possessionDate;
 
     @Column(name = "security")
     private String security;
@@ -51,6 +56,8 @@ public class BuyOverview {
     private String aboutProperty;
 
     @Lob
+    private byte[] propertyImage;
+
     @Column(name = "pdf_file", columnDefinition = "LONGBLOB")
     private byte[] pdfFile;
 
@@ -59,4 +66,10 @@ public class BuyOverview {
 
     @Column(name = "pdf_type")
     private String pdfType;
+
+    @Column(name = "mime_type")
+    private String mimeType;
+
+    @Column(name = "map")
+    private String map;
 }

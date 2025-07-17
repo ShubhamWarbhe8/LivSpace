@@ -42,7 +42,7 @@ public class UserController {
     public String login(@ModelAttribute UserDomain userDomain, Model model) {
         UserEntity userEntity = userService.getUserByMobileNumberAndPassword(userDomain.getMobileNumber(), userDomain.getPassword());
         if (userEntity != null) {
-            return "xxx";
+            return "welcome";
         } else {
             model.addAttribute("error", "Invalid username or password");
             return "sign-in";

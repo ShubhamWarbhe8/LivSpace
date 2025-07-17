@@ -8,7 +8,6 @@ import lombok.Data;
 @Table(name = "landmarks")
 public class LandMarkEntity {
     @Id
-
     @Column(name = "lid")
     private Long Lid;
 
